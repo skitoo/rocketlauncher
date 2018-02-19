@@ -9,14 +9,17 @@ name = "pypi"
 
 certifi = "==2018.1.18"
 chardet = "==3.0.4"
-Cython = "==0.25.2"
+cython = "==0.25.2"
 docutils = "==0.14"
 idna = "==2.6"
-Pygments = "==2.2.0"
+pygments = "==2.2.0"
 requests = "==2.18.4"
 "urllib3" = "==1.22"
 "3f8a319" = {file = "http://github.com/kivy/kivy/archive/master.zip"}
 
 
 [dev-packages]
+tox = "*"
+pytest = "*"
+detox = "*"
 
