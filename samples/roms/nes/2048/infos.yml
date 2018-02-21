@@ -1,0 +1,9 @@
+rom: 2048 (tsone).nes
+name: 2048
+description: 2048 is an originally Smartphone Game. You must play with tile to add them pair by pair to obtain 2048.
+platform: NES
+developper: tsone
+publisher: tsone
+players: 1
+genres: Puzzle-Game
+releasedate: 20140621T000000

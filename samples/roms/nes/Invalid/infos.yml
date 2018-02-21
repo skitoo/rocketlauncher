@@ -1,0 +1,8 @@
+rom: hello.nes
+description: An invalid rocket
+platform: NES
+genres: Platform
+developper: Nintendo
+publisher: Nintendo
+players: 1-2
+releasedate: 19870515T000000
