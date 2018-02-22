@@ -6,3 +6,7 @@ init:
 
 test:
 	detox
+
+
+ci:
+	pipenv run py.test --junitxml=report.xml
