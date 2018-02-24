@@ -17,6 +17,7 @@ requests = "==2.18.4"
 "urllib3" = "==1.22"
 "3f8a319" = {file = "http://github.com/kivy/kivy/archive/master.zip"}
 pyyaml = "*"
+sqlalchemy = "*"
 
 
 [dev-packages]
