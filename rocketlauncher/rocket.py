@@ -9,6 +9,7 @@ try:
 except ImportError:
     from yaml import Loader
 from .errors import LoadError, InstallError
+from .database import Rocket
 
 
 MANDATORY_ATTRIBUTES = [
@@ -51,7 +52,7 @@ def load_rocket(base_path):
     return data
 
 
-def install(rocket_path, roms_path):
+def install(rocket_path, roms_path, db_session):
     with tempfile.TemporaryDirectory() as tmp_dir:
         zip_file = zipfile.ZipFile(rocket_path, 'r')
         zip_file.extractall(tmp_dir)
@@ -67,6 +68,24 @@ def install(rocket_path, roms_path):
         os.mkdir(dest_dir)
         for file_name in file_list:
             shutil.copy(os.path.join(tmp_dir, file_name), dest_dir)
+        return _save_rocket(infos, db_session)
+
+
+def _save_rocket(infos, db_session):
+    print('_save_rocket')
+    rocket = Rocket(
+        rom=infos['rom'],
+        name=infos['name'],
+        description=infos['description'],
+        platform=infos['platform'],
+        genres=infos['genres'],
+        developper=infos['developper'],
+        publisher=infos['publisher'],
+        players=infos['players'],
+        releasedate=infos['releasedate'],
+    )
+    db_session.add(rocket)
+    return rocket
 
 
 def _check_file(filename, file_list):

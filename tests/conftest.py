@@ -1,3 +1,4 @@
+import tempfile
 import pytest
 from contextlib import closing
 from sqlalchemy.engine import create_engine
@@ -21,3 +22,9 @@ def connection():
 def session(connection):
     with closing(Session(connection)) as session:
         yield session
+
+
+@pytest.fixture(scope='function')
+def roms_path():
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        yield tmp_dir
