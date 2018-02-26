@@ -1,0 +1,3 @@
+db_path: 'tests/fixtures/rocketlauncher.db'
+rockets_path: 'tests/fixtures/roms'
+themes_path: 'tests/fixtures/themes'
