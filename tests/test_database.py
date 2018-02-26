@@ -7,7 +7,7 @@ from rocketlauncher.database import Rocket
 @pytest.fixture(scope='function')
 def rocket(session, roms_path):
     Rocket.BASE_PATH = roms_path
-    yield rkt.install('samples/2048.rocket', roms_path, session)
+    yield rkt.install('tests/fixtures/2048.rocket', roms_path, session)
 
 
 def test_rocket_str_render(rocket):
