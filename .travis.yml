@@ -4,13 +4,11 @@ python:
   - "3.5"
   - "3.6"
 
-install:
-  - make
-  - pip install python-coveralls
+install: make
 
 script:
   - make ci
   - make flake8
 
 after_success:
-  - coveralls
+  - codecov
