@@ -11,4 +11,5 @@ script:
   - make flake8
 
 after_success:
+  - make coverage
   - codecov
