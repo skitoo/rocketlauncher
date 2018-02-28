@@ -1,0 +1,2 @@
+db_path: 'samples/rocketlauncher.db'
+rockets_path: 'samples/roms'
