@@ -8,4 +8,5 @@ install: make
 
 script:
   - make ci
+  - make coverage
   - make flake8
