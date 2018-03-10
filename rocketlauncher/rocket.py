@@ -1,4 +1,5 @@
 import os
+import glob
 import yaml
 import tempfile
 import zipfile
@@ -63,7 +64,9 @@ def install(rocket_path, roms_path, db_session):
         _check_video_and_screenshot(file_list)
         infos = load_rocket(os.path.join(tmp_dir))
         _check_file(infos['rom'], file_list)
-        os.mkdir(os.path.join(roms_path, infos['platform']))
+        platform_path = os.path.join(roms_path, infos['platform'])
+        if not os.path.exists(platform_path):
+            os.mkdir(platform_path)
         dest_dir = os.path.join(roms_path, infos['platform'], infos['name'])
         os.mkdir(dest_dir)
         for file_name in file_list:
@@ -96,3 +99,27 @@ def _check_file(filename, file_list):
 def _check_video_and_screenshot(file_list):
     if 'video1.gif' not in file_list and 'screeshot1.jpg' not in file_list:
         raise InstallError('This rocket has not video or screenshot file')
+
+
+def rocket_path(rocket, config):
+    return os.path.join(config['rockets_path'], rocket.platform, rocket.name)
+
+
+def rom_path(rocket, config):
+    return os.path.join(rocket_path(rocket, config), rocket.rom)
+
+
+def logo_path(rocket, config):
+    return os.path.join(rocket_path(rocket, config), 'logo.png')
+
+
+def front_path(rocket, config):
+    return os.path.join(rocket_path(rocket, config), 'front.jpg')
+
+
+def videos_path(rocket, config):
+    return glob.glob(os.path.join(rocket_path(rocket, config), 'video*.gif'))
+
+
+def screenshots_path(rocket, config):
+    return glob.glob(os.path.join(rocket_path(rocket, config), 'screenshot*.jpg'))

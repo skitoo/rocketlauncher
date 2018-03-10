@@ -1,9 +1,12 @@
-import tempfile
+import os
+import shutil
 import pytest
 from contextlib import closing
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm.session import Session
 from rocketlauncher.database import Base
+from rocketlauncher import rocket as rkt
+from rocketlauncher import config as cfg
 
 
 @pytest.fixture(scope='function')
@@ -25,6 +28,19 @@ def session(connection):
 
 
 @pytest.fixture(scope='function')
-def roms_path():
-    with tempfile.TemporaryDirectory() as tmp_dir:
-        yield tmp_dir
+def roms_path(request, config):
+    def final():
+        shutil.rmtree(config['rockets_path'])
+    os.mkdir(config['rockets_path'])
+    request.addfinalizer(final)
+    return config['rockets_path']
+
+
+@pytest.fixture(scope='session')
+def config():
+    return cfg.load('tests/fixtures/config.yml')
+
+
+@pytest.fixture(scope='function')
+def rocket(session, roms_path):
+    yield rkt.install('tests/fixtures/2048.rocket', roms_path, session)
