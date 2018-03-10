@@ -1,6 +1,6 @@
 import pytest
 from datetime import date
-import os
+from os.path import join, exists
 from rocketlauncher import rocket as rkt
 from rocketlauncher import database as db
 from rocketlauncher.errors import LoadError, InstallError
@@ -37,11 +37,12 @@ def test_load_rocket_fail_with_invalid_infos_file():
 
 def test_install_rocket_files(session, roms_path):
     rkt.install('tests/fixtures/2048.rocket', roms_path, session)
-    assert os.path.exists(os.path.join(roms_path, 'nes', '2048', 'logo.png'))
-    assert os.path.exists(os.path.join(roms_path, 'nes', '2048', 'front.jpg'))
-    assert os.path.exists(os.path.join(roms_path, 'nes', '2048', 'video1.gif'))
-    assert os.path.exists(os.path.join(roms_path, 'nes', '2048', '2048 (tsone).nes'))
-    assert os.path.exists(os.path.join(roms_path, 'nes', '2048', 'infos.yml'))
+    base_path = join(roms_path, 'nes', '2048')
+    assert exists(join(base_path, 'logo.png'))
+    assert exists(join(base_path, 'front.jpg'))
+    assert exists(join(base_path, 'video1.gif'))
+    assert exists(join(base_path, '2048 (tsone).nes'))
+    assert exists(join(base_path, 'infos.yml'))
 
 
 def test_install_invalid_rocket_when_has_not_logo_file(session, roms_path):
@@ -94,3 +95,27 @@ def test_install_rocket_with_good_infos(session, roms_path):
     assert rocket.publisher == 'tsone'
     assert rocket.players == [1]
     assert rocket.releasedate == date(2014, 6, 21)
+
+
+def test_rocket_path(rocket, config):
+    assert rkt.rocket_path(rocket, config) == join(config['rockets_path'], 'nes/2048')
+
+
+def test_rocket_rom_path(rocket, config):
+    assert rkt.rom_path(rocket, config) == join(config['rockets_path'], 'nes/2048/2048 (tsone).nes')
+
+
+def test_rocket_logo_path(rocket, config):
+    assert rkt.logo_path(rocket, config) == join(config['rockets_path'], 'nes/2048/logo.png')
+
+
+def test_rocket_front_path(rocket, config):
+    assert rkt.front_path(rocket, config) == join(config['rockets_path'], 'nes/2048/front.jpg')
+
+
+def test_rocket_videos_path(rocket, config):
+    assert rkt.videos_path(rocket, config) == [join(config['rockets_path'], 'nes/2048/video1.gif')]
+
+
+def test_rocket_screenshots_path(rocket, config):
+    assert rkt.screenshots_path(rocket, config) == []
